@@ -44,7 +44,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad pcb file. 
+    generated kicad PCB file. 
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_{socket,plug}_filename: defaults are below
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -86,7 +86,7 @@ module.exports = {
     // 3dmodels [x, y, z]
     include_model_socket: false,
     include_model_plug: false,
-    
+
     models_dir: '../../footprints/ceoloide/3dmodels/', 
     model_socket_filename: 'battery_connector_jstph2_socket.step',
     model_socket_offset: [0, 0, 0],
@@ -309,10 +309,10 @@ module.exports = {
     `
         
     const reversible_traces = ` 
-    (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[0].index}))
-    (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[0].index}))
-    (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[1].index}))
-    (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[1].index}))
+  (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[0].index}))
+  (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[0].index}))
+  (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[1].index}))
+  (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[1].index}))
     `
         
     const model_socket = `

@@ -27,7 +27,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad pcb file. 
+    generated kicad PCB file. 
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_diode_{th,smd}_filename: defaults are below
     Allows you to specify the path to a 3D model file relative to models_dir.

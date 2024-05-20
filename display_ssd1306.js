@@ -1,56 +1,96 @@
-// Copyright (c) 2023 Marco Massarelli
-//
-// SPDX-License-Identifier: CC-BY-NC-SA-4.0
-//
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
-//
-// Author: @ceoloide
-//
-// Description:
-//  Reversible footprint for SSD1306 OLED display. Includes an outline of the
-//  display to make positioning easier.
-//
-//  In its default configuration, jumper pads are positioned above the pins, when the
-//  component is oriented verically and pointing upwards, or left of the pins, when oriented
-//  horizontally and oriented leftward. Jumper pads position can be inverted with a parameter.
-//
-// Params:
-//    side: default is F for Front
-//      the side on which to place the single-side footprint and designator, either F or B
-//    reversible: default is false
-//      if true, the footprint will be placed on both sides so that the PCB can be
-//      reversible
-//    include_traces: default is true
-//      if true it will include traces that connect the jumper pads to the vias
-//      and the through-holes for the MCU
-//    gnd_trace_width: default is 0.250mm
-//      allows to override the GND trace width. Not recommended to go below 0.25mm (JLCPC
-//      min is 0.127mm).
-//    signal_trace_width: default is 0.250mm
-//      allows to override the trace width that connects the jumper pads to the SDA, and SCL.
-//      Not recommended to go below 0.15mm (JLCPC min is 0.127mm).
-//    invert_jumpers_position default is false
-//      allows to change the position of the jumper pads, from their default to the opposite
-//      side of the pins. See the description above for more details.
-//    include_labels default is true
-//      if true it will include the pin labels on the Silkscreen layer. The labels will match
-//      the *opposite* side of the board when the footprint is set to be reversible, since
-//      they are meant to match the solder jumpers behavior and aid testing.
+/*
+Copyright (c) 2023 Marco Massarelli
 
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
+
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Author: @ceoloide
+
+Description:
+  Reversible footprint for SSD1306 OLED display. Includes an outline of the
+  display to make positioning easier.
+
+  In its default configuration, jumper pads are positioned above the pins, when the
+  component is oriented verically and pointing upwards, or left of the pins, when oriented
+  horizontally and oriented leftward. Jumper pads position can be inverted with a parameter.
+
+Params:
+  side: default is F for Front
+    the side on which to place the single-side footprint and designator, either F or B
+  reversible: default is false
+    if true, the footprint will be placed on both sides so that the PCB can be
+    reversible
+  include_traces: default is true
+    if true it will include traces that connect the jumper pads to the vias
+    and the through-holes for the MCU
+  gnd_trace_width: default is 0.250mm
+    allows to override the GND trace width. Not recommended to go below 0.25mm (JLCPC
+    min is 0.127mm).
+  signal_trace_width: default is 0.250mm
+    allows to override the trace width that connects the jumper pads to the SDA, and SCL.
+    Not recommended to go below 0.15mm (JLCPC min is 0.127mm).
+  invert_jumpers_position default is false
+    allows to change the position of the jumper pads, from their default to the opposite
+    side of the pins. See the description above for more details.
+  include_labels default is true
+    if true it will include the pin labels on the Silkscreen layer. The labels will match
+    the *opposite* side of the board when the footprint is set to be reversible, since
+    they are meant to match the solder jumpers behavior and aid testing.
+  include_model_display: default is false
+    if true it will include a specified 3D model into a footprint to be used
+    when rendering the PCB.
+  models_dir: default is '../../footprints/ceoloide/3dmodels/'
+    Allows you to specify the path to a 3D model directory relative to the ergogen
+    generated kicad PCB file. 
+    Use the ${VAR_NAME} syntax to point to a KiCad configured path.
+  model_display_filename: defaults is 'display_ssd1306.step'
+    Allows you to specify the path to a 3D model file relative to models_dir.
+    supported formats (step, stpz, wrl, wrz, x3d, idf, emn)
+  model_display_ssd1306_{offset,rotation,scale}: default is [x, y, z] an array of decimal numbers
+    xyz offset (in mm), used to adjust the position of the 3d model
+    relative the footprint.
+    xyz rotation (in degrees), used to adjust the orientation of the 3d
+    model relative the footprint.
+    xyz scale, used to adjust the size of the 3d model relative to its
+    original size.
+
+@nxtk's improvements:
+  - Add 3D model support    
+*/
 module.exports = {
   params: {
+    // reference, designator, location
     designator: 'DISP',
     side: 'F',
     reversible: false,
+
+    // feature switches (excluding graphics and 3dmodels)
+    invert_jumpers_position: false,
     include_traces: true,
+    
+    // routing params (pads, traces, vias, nets)
     gnd_trace_width: 0.25,
     signal_trace_width: 0.25,
-    invert_jumpers_position: false,
-    include_labels: true,
     SDA: { type: 'net', value: 'SDA' },
     SCL: { type: 'net', value: 'SCL' },
     VCC: { type: 'net', value: 'VCC' },
     GND: { type: 'net', value: 'GND' },
+    
+    // graphics
+    include_silkscreen: true,
+    include_labels: true,
+    include_courtyard: true,
+    include_fabrication: true,
+
+    // 3dmodels [x, y, z]
+    include_model_display: false,
+      
+    models_dir: '../../footprints/ceoloide/3dmodels/', 
+    model_display_filename: 'display_ssd1306.step',
+    model_display_offset: [0, 0, 0],
+    model_display_rotation: [0, 0, 0],
+    model_display_scale: [1, 1, 1],
   },
   body: p => {
     let dst_nets = [
@@ -103,21 +143,25 @@ module.exports = {
       (at 0 20 ${p.r})
       (layer "${p.side}.SilkS")
       ${p.ref_hide}
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
+      (effects (font (size 1 1) (thickness 0.15))))
 		(attr exclude_from_pos_files exclude_from_bom)
-        `
-    const front = `
+    `
+
+    const front_silkscreen = `
     (fp_line (start 5.14 15.37) (end 5.14 18.03) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start 5.14 15.37) (end -5.14 15.37) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start 5.14 18.03) (end -5.14 18.03) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -5.14 15.37) (end -5.14 18.03) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
+    `
 
+    const front_courtyard = `
     (fp_line (start 5.61 14.9) (end 5.61 18.45) (layer "F.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start 5.61 18.45) (end -5.61 18.45) (layer "F.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start -5.61 18.45) (end -5.61 14.9) (layer "F.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start -5.61 14.9) (end 5.61 14.9) (layer "F.CrtYd") (stroke (width 0.15) (type solid)))
+    `
 
+    const front_fabrication = `
     (fp_line (start -3.77 -11.14) (end -3.77 11.24) (layer "F.Fab") (stroke (width 0.15) (type solid)))
     (fp_line (start 1.75 -11.14) (end 1.75 11.24) (layer "F.Fab") (stroke (width 0.15) (type solid)))
     (fp_line (start -3.77 -11.14) (end 1.75 -11.14) (layer "F.Fab") (stroke (width 0.15) (type solid)))
@@ -136,17 +180,21 @@ module.exports = {
     (pad "13" smd rect (at 3.81 ${14.95 + jumpers_offset} ${90 + p.r}) (size 0.6 1.2) (layers "F.Cu" "F.Paste" "F.Mask") ${jumpers_front_bottom[3].str})
     `
 
-    const back = `
+    const back_silkscreen = `
     (fp_line (start 5.14 15.37) (end 5.14 18.03) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start 5.14 15.37) (end -5.14 15.37) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start 5.14 18.03) (end -5.14 18.03) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -5.14 15.37) (end -5.14 18.03) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
+    `
 
+    const back_courtyard = `
     (fp_line (start 5.61 14.9) (end 5.61 18.45) (layer "B.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start 5.61 18.45) (end -5.61 18.45) (layer "B.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start -5.61 18.45) (end -5.61 14.9) (layer "B.CrtYd") (stroke (width 0.15) (type solid)))
     (fp_line (start -5.61 14.9) (end 5.61 14.9) (layer "B.CrtYd") (stroke (width 0.15) (type solid)))
+    `
 
+    const back_fabrication = `
     (fp_line (start 3.77 -11.14) (end 3.77 11.24) (layer "B.Fab") (stroke (width 0.15) (type solid)))
     (fp_line (start -1.75 -11.14) (end -1.75 11.24) (layer "B.Fab") (stroke (width 0.15) (type solid)))
     (fp_line (start 3.77 -11.14) (end -1.75 -11.14) (layer "B.Fab") (stroke (width 0.15) (type solid)))
@@ -165,31 +213,26 @@ module.exports = {
     (pad "23" smd rect (at -3.81 ${14.95 + jumpers_offset} ${270 + p.r}) (size 0.6 1.2) (layers "B.Cu" "B.Paste" "B.Mask") ${jumpers_back_bottom[3].str})
     `
 
-    const labels = `
+    const front_labels = `
     (fp_text user "SDA" (at -4.50 ${13.0 + labels_offset} ${p.r}) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
+      (effects (font (size 1 1) (thickness 0.15))))
     (fp_text user "SCL" (at -1.50 ${13.0 + labels_offset} ${p.r}) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
+      (effects (font (size 1 1) (thickness 0.15))))
     (fp_text user "VCC" (at 1.50 ${13.0 + labels_offset} ${p.r}) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
+      (effects (font (size 1 1) (thickness 0.15))))
     (fp_text user "GND" (at 4.50 ${13.0 + labels_offset} ${p.r}) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
+      (effects (font (size 1 1) (thickness 0.15))))
+    `
+
+    const back_labels = `
     (fp_text user "GND" (at -4.50 ${13.0 + labels_offset} ${p.r}) (layer "B.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
-    )
+      (effects (font (size 1 1) (thickness 0.15)) (justify mirror)))
     (fp_text user "VCC" (at -1.50 ${13.0 + labels_offset} ${p.r}) (layer "B.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
-    )
+      (effects (font (size 1 1) (thickness 0.15)) (justify mirror)))
     (fp_text user "SCL" (at 1.50 ${13.0 + labels_offset} ${p.r}) (layer "B.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
-    )
+      (effects (font (size 1 1) (thickness 0.15)) (justify mirror)))
     (fp_text user "SDA" (at 4.50 ${13.0 + labels_offset} ${p.r}) (layer "B.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
-    )
+      (effects (font (size 1 1) (thickness 0.15)) (justify mirror)))
     `
 
     const bottom = `
@@ -203,8 +246,7 @@ module.exports = {
     (fp_line (start -6.00 -19.70) (end 6.00 -19.70) (layer "Dwgs.User") (stroke (width 0.15) (type solid)))
     (fp_line (start -6.00 -17.45) (end 6.00 -17.45) (layer "Dwgs.User") (stroke (width 0.15) (type solid)))
     (fp_line (start -6.00 18.30) (end 6.00 18.30) (layer "Dwgs.User") (stroke (width 0.15) (type solid)))
-    (fp_line (start -6.00 12.55) (end 6.00 12.55) (layer "Dwgs.User") (stroke (width 0.15) (type solid)))
-  )
+    (fp_line (start -6.00 12.55) (end 6.00 12.55) (layer "Dwgs.User") (stroke (width 0.15) (type solid))))
     `
 
     const traces_bottom = `
@@ -230,23 +272,27 @@ module.exports = {
     `
 
     let final = top;
-
     if (p.side == "F" || p.reversible) {
-      final += front;
-    }
-    if (p.side == "B" || p.reversible) {
-      final += back;
-    }
-
-    if (p.reversible) {
-      final += front_jumpers;
-      final += back_jumpers;
-
-      if (p.include_labels) {
-        final += labels;
+      if (p.include_silkscreen) {
+        if (p.include_labels) final += fromt_labels;
+        final += front_silkscreen;
       }
+      if (p.include_courtyard) final += front_courtyard;
+      if (p.include_fabrication) final += front_fabrication;
+      final += front_jumpers;
     }
 
+    if (p.side == "B" || p.reversible) {
+      if (p.include_silkscreen) {
+        if (p.include_labels) final += back_labels;
+        final += back_silkscreen;
+      }
+      if (p.include_courtyard) final += back_courtyard;
+      if (p.include_fabrication) final += back_fabrication;
+      final += back_jumpers;
+    }
+
+    final += model_display;
     final += bottom;
 
     if (p.include_traces && p.reversible) {
