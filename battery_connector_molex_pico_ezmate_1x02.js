@@ -41,16 +41,24 @@ Params:
     at least once in the development of a board to confirm sufficient clearance for the
     connector and wires.
   include_model_{socket,plug}: default is false
-    if true it will include a specified 3d model into a footprint
+    if true it will include a specified 3D model into a footprint to be used
+    when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
-    allows you to set a path to a 3d models directory relative to the ergogen genetarted kicad pcb file
+    Allows you to specify the path to a 3D model directory relative to the ergogen
+    generated kicad pcb file. 
+    Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_{socket,plug}_filename: defaults are below
-    allows you to set a 3dmodel filename relative to models_dir
+    Allows you to specify the path to a 3D model file relative to models_dir.
     supported formats (step, stpz, wrl, wrz, x3d, idf, emn)
     socket - 'battery_connector_molexpicoezmate1x02_socket.step'
       plug - 'battery_connector_molexpicoezmate1x02_plug.step'
   model_{socket,plug}_{offset,rotation,scale}: default is [x, y, z] an array of decimal numbers
-
+    xyz offset (in mm), used to adjust the position of the 3d model
+      relative the footprint.
+    xyz rotation (in degrees), used to adjust the orientation of the 3d
+      model relative the footprint.
+    xyz scale, used to adjust the size of the 3d model relative to its
+      original size.
 
 @ceoloide's improvements:
   - Add parameters to control silkscreen, fabrication, and courtyard
@@ -84,6 +92,7 @@ module.exports = {
     // 3dmodels [x, y, z]
     include_model_socket: false,
     include_model_plug: false,
+    
     models_dir: '../../footprints/ceoloide/3dmodels/', 
     model_socket_filename: 'battery_connector_molexpicoezmate1x02_socket.step',
     model_socket_offset: [0, 0, 0],
