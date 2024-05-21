@@ -44,7 +44,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad PCB file. 
+    generated kicad PCB file.
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_{socket,plug}_filename: defaults are below
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -68,7 +68,7 @@ module.exports = {
     // reference, designator, location
     designator: 'JST',
     side: 'F',
-    
+
     // feature switches (excluding graphics and 3dmodels)
     reversible: false,
     include_traces: true,
@@ -82,12 +82,12 @@ module.exports = {
     include_silkscreen: true,
     include_fabrication: true,
     include_courtyard: true,
-    
+
     // 3dmodels [x, y, z]
     include_model_socket: false,
     include_model_plug: false,
 
-    models_dir: '../../footprints/ceoloide/3dmodels/', 
+    models_dir: '../../footprints/ceoloide/3dmodels/',
     model_socket_filename: 'battery_connector_jstph2_socket.step',
     model_socket_offset: [0, 0, 0],
     model_socket_rotation: [0, 0, 0],
@@ -177,7 +177,7 @@ module.exports = {
     (fp_line (start 2.14 6.36) (end 3.06 6.36) (stroke (width 0.12) (type solid)) (layer "B.SilkS"))
     (fp_line (start 3.06 6.36) (end 3.06 5.36) (stroke (width 0.12) (type solid)) (layer "B.SilkS"))
     `
-    
+
     const front_pads = `
     (pad "1" thru_hole roundrect (at -1 0 ${p.r}) (size 1.2 1.75) (drill 0.75) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.20) ${p.BAT_N.str})
     (pad "2" thru_hole oval (at 1 0 ${p.r}) (size 1.2 1.75) (drill 0.75) (layers "*.Cu" "*.Mask") ${p.BAT_P.str})
@@ -201,7 +201,7 @@ module.exports = {
             (xy -0.6 0.4)
             (xy -0.6 0.2)
             (xy 0 -0.4)
-            (xy 0.6 0.2))   
+            (xy 0.6 0.2))
           (width 0)
           (fill yes)))
       ${local_nets[0]})
@@ -307,14 +307,14 @@ module.exports = {
           (width 0)
           (fill yes))))
     `
-        
-    const reversible_traces = ` 
+
+    const reversible_traces = `
   (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[0].index}))
   (segment (start ${p.eaxy(-1, 1.8)}) (end ${p.eaxy(-1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[0].index}))
   (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "F.Cu") (net ${local_nets[1].index}))
   (segment (start ${p.eaxy(1, 1.8)}) (end ${p.eaxy(1, 0)}) (width ${p.trace_width}) (layer "B.Cu") (net ${local_nets[1].index}))
     `
-        
+
     const model_socket = `
     (model ${p.models_dir + p.model_socket_filename}
       (hide ${p.include_model_socket ? 'no' : 'yes'})

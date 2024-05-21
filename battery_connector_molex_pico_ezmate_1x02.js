@@ -45,7 +45,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad PCB file. 
+    generated kicad PCB file.
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_{socket,plug}_filename: defaults are below
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -75,10 +75,10 @@ module.exports = {
     // reference, designator, location
     designator: 'CONN',
     side: 'F',
-    
+
     // feature switches (excluding graphics and 3dmodels)
     reversible: false,
-    
+
     // routing params (pads, traces, vias, nets)
     BAT_P: { type: 'net', value: 'BAT_P' },
     BAT_N: { type: 'net', value: 'GND' },
@@ -91,8 +91,8 @@ module.exports = {
     // 3dmodels [x, y, z]
     include_model_socket: false,
     include_model_plug: false,
-    
-    models_dir: '../../footprints/ceoloide/3dmodels/', 
+
+    models_dir: '../../footprints/ceoloide/3dmodels/',
     model_socket_filename: 'battery_connector_molexpicoezmate1x02_socket.step',
     model_socket_offset: [0, 0, 0],
     model_socket_rotation: [0, 0, 0],

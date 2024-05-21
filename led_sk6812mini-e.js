@@ -52,7 +52,7 @@ Params:
     or above 0.8 (KiCad default), to avoid overlap or DRC errors
   via_drill: default is 0.4
     allows to define the size of the drill. Not recommended below 0.3 (JLCPCB minimum),
-    or above 0.4 (KiCad default), to avoid overlap or DRC errors 
+    or above 0.4 (KiCad default), to avoid overlap or DRC errors
   include_courtyard: default is true
     if true it will include the part courtyard
   include_keepout: default is false
@@ -62,7 +62,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad PCB file. 
+    generated kicad PCB file.
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_led_filename: default is 'led_sk6812minie.step'
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -81,12 +81,12 @@ module.exports = {
     // reference, designator, location
     designator: 'LED',
     side: 'B',
-    
+
     // feature switches (excluding graphics and 3dmodels)
     reversible: false,
     reverse_mount: true,
     include_traces_vias: true,
-    
+
     // routing params (pads, traces, vias, nets)
     signal_trace_width: 0.25,
     gnd_trace_width: 0.25,
@@ -97,7 +97,7 @@ module.exports = {
     P2: undefined,
     P3: { type: 'net', value: 'GND' },
     P4: undefined,
-    
+
     // graphics
     include_silkscreen: true,
     include_courtyard: true,
@@ -106,7 +106,7 @@ module.exports = {
     // 3dmodels [x, y, z]
     include_model_led: true,
 
-    models_dir: '../../footprints/ceoloide/3dmodels/', 
+    models_dir: '../../footprints/ceoloide/3dmodels/',
     model_led_filename: 'led_sk6812minie.step',
     model_led_offset: [0, 0, 0],
     model_led_rotation: [0, 0, 0],
@@ -114,7 +114,7 @@ module.exports = {
   },
   body: p => {
     const top = `
-  (footprint "ceoloide:led_SK6812mini-e (${p.reverse_mount ? "per-key" : "underglow"}${p.reversible ? ", reversible" : "single-side"})" 
+  (footprint "ceoloide:led_SK6812mini-e (${p.reverse_mount ? "per-key" : "underglow"}${p.reversible ? ", reversible" : "single-side"})"
     (layer "${p.side}.Cu")
     ${p.at}
     (property "Reference" "${p.ref}"
@@ -164,7 +164,7 @@ module.exports = {
     (pad "1" smd rect (at 2.7 -0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P1.str})
     (pad "2" smd rect (at 2.7 0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P2.str})
     `
-    
+
     const front_silkscreen = `
     (fp_line (start -3.8 -1.6) (end -2.2 -1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -3.8 0) (end -3.8 -1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))

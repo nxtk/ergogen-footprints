@@ -42,7 +42,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad PCB file. 
+    generated kicad PCB file.
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_display_filename: defaults is 'display_ssd1306.step'
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -56,19 +56,19 @@ Params:
     original size.
 
 @nxtk's improvements:
-  - Add 3D model support    
+  - Add 3D model support
 */
 module.exports = {
   params: {
     // reference, designator, location
     designator: 'DISP',
     side: 'F',
-    
+
     // feature switches (excluding graphics and 3dmodels)
     reversible: false,
     invert_jumpers_position: false,
     include_traces: true,
-    
+
     // routing params (pads, traces, vias, nets)
     gnd_trace_width: 0.25,
     signal_trace_width: 0.25,
@@ -76,7 +76,7 @@ module.exports = {
     SCL: { type: 'net', value: 'SCL' },
     VCC: { type: 'net', value: 'VCC' },
     GND: { type: 'net', value: 'GND' },
-    
+
     // graphics
     include_silkscreen: true,
     include_labels: true,
@@ -85,8 +85,8 @@ module.exports = {
 
     // 3dmodels [x, y, z]
     include_model_display: false,
-      
-    models_dir: '../../footprints/ceoloide/3dmodels/', 
+
+    models_dir: '../../footprints/ceoloide/3dmodels/',
     model_display_filename: 'display_ssd1306.step',
     model_display_offset: [0, 0, 0],
     model_display_rotation: [0, 0, 0],

@@ -43,7 +43,7 @@ Params:
      if true it will include the silkscreen layer.
    include_labels default is true
      if true and Silkscreen layer is included, it will include the pin labels. The labels
-     will match the *opposite* side of the board when the footprint is set to be reversible, 
+     will match the *opposite* side of the board when the footprint is set to be reversible,
      since they are meant to match the solder jumpers behavior and aid testing.
    include_courtyard: default is true
      if true it will include a courtyard outline around the pin header.
@@ -52,7 +52,7 @@ Params:
     when rendering the PCB.
   models_dir: default is '../../footprints/ceoloide/3dmodels/'
     Allows you to specify the path to a 3D model directory relative to the ergogen
-    generated kicad PCB file. 
+    generated kicad PCB file.
     Use the ${VAR_NAME} syntax to point to a KiCad configured path.
   model_display_filename: defaults is 'display_niceview.step'
     Allows you to specify the path to a 3D model file relative to models_dir.
@@ -69,7 +69,7 @@ Params:
  - Added support for traces
  - Upgraded to KiCad 8 format
  - Make silkscreen and courtyard optional
- 
+
 @nxtk's improvements:
   - Add 3D model support
 */
@@ -79,7 +79,7 @@ module.exports = {
     // reference, designator, location
     designator: 'DISP',
     side: 'F',
-    
+
     // feature switches (excluding graphics and 3dmodels)
     reversible: false,
     include_traces: true,
@@ -101,8 +101,8 @@ module.exports = {
 
     // 3dmodels [x, y, z]
     include_model_display: false,
-      
-    models_dir: '../../footprints/ceoloide/3dmodels/', 
+
+    models_dir: '../../footprints/ceoloide/3dmodels/',
     model_display_filename: 'display_niceview.step',
     model_display_offset: [0, 0, 0],
     model_display_rotation: [0, 0, 0],
