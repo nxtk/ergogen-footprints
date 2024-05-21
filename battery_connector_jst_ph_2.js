@@ -68,9 +68,9 @@ module.exports = {
     // reference, designator, location
     designator: 'JST',
     side: 'F',
-    reversible: false,
-
+    
     // feature switches (excluding graphics and 3dmodels)
+    reversible: false,
     include_traces: true,
 
     // routing params (pads, traces, vias, nets)
@@ -320,16 +320,14 @@ module.exports = {
       (hide ${p.include_model_socket ? 'no' : 'yes'})
       (offset (xyz ${p.model_socket_offset[0]} ${p.model_socket_offset[1]} ${p.model_socket_offset[2]}))
       (scale (xyz ${p.model_socket_scale[0]} ${p.model_socket_scale[1]} ${p.model_socket_scale[2]}))
-      (rotate (xyz ${p.model_socket_rotation[0]} ${p.model_socket_rotation[1]} ${p.model_socket_rotation[2]}))
-    )
+      (rotate (xyz ${p.model_socket_rotation[0]} ${p.model_socket_rotation[1]} ${p.model_socket_rotation[2]})))
     `
     const model_plug = `
     (model ${p.models_dir + p.model_plug_filename}
       (hide ${p.include_model_plug ? 'no' : 'yes'})
       (offset (xyz ${p.model_plug_offset[0]} ${p.model_plug_offset[1]} ${p.model_plug_offset[2]}))
       (scale (xyz ${p.model_plug_scale[0]} ${p.model_plug_scale[1]} ${p.model_plug_scale[2]}))
-      (rotate (xyz ${p.model_plug_rotation[0]} ${p.model_plug_rotation[1]} ${p.model_plug_rotation[2]}))
-    )
+      (rotate (xyz ${p.model_plug_rotation[0]} ${p.model_plug_rotation[1]} ${p.model_plug_rotation[2]})))
     `
 
     const bottom = `

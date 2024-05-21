@@ -63,9 +63,9 @@ module.exports = {
     // reference, designator, location
     designator: 'DISP',
     side: 'F',
-    reversible: false,
-
+    
     // feature switches (excluding graphics and 3dmodels)
+    reversible: false,
     invert_jumpers_position: false,
     include_traces: true,
     
@@ -235,6 +235,14 @@ module.exports = {
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror)))
     `
 
+    const model_display = `
+    (model ${p.models_dir + p.model_display_filename}
+      (hide ${p.include_model_display ? 'no' : 'yes'})
+      (offset (xyz ${p.model_display_offset[0]} ${p.model_display_offset[1]} ${p.model_display_offset[2]}))
+      (scale (xyz ${p.model_display_scale[0]} ${p.model_display_scale[1]} ${p.model_display_scale[2]}))
+      (rotate (xyz ${p.model_display_rotation[0]} ${p.model_display_rotation[1]} ${p.model_display_rotation[2]})))
+    `
+
     const bottom = `
     (pad "1" thru_hole oval (at -3.81 16.7 ${270 + p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${socket_nets[0].str})
     (pad "2" thru_hole oval (at -1.27 16.7 ${270 + p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${socket_nets[1].str})
@@ -274,7 +282,7 @@ module.exports = {
     let final = top;
     if (p.side == "F" || p.reversible) {
       if (p.include_silkscreen) {
-        if (p.include_labels) final += fromt_labels;
+        if (p.include_labels) final += front_labels;
         final += front_silkscreen;
       }
       if (p.include_courtyard) final += front_courtyard;

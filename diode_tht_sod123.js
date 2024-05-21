@@ -59,9 +59,9 @@ module.exports = {
     // reference, designator, location
     designator: 'D',
     side: 'B',
-    reversible: false,
-
+    
     // feature switches (excluding graphics and 3dmodels)
+    reversible: false,
     include_tht: false,
 
     // routing params (pads, traces, vias, nets)

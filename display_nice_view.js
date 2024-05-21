@@ -79,9 +79,9 @@ module.exports = {
     // reference, designator, location
     designator: 'DISP',
     side: 'F',
-    reversible: false,
-
+    
     // feature switches (excluding graphics and 3dmodels)
+    reversible: false,
     include_traces: true,
     invert_jumpers_position: false,
 
@@ -287,8 +287,7 @@ module.exports = {
     (hide ${p.include_model_display ? 'no' : 'yes'})
     (offset (xyz ${p.model_display_offset[0]} ${p.model_display_offset[1]} ${p.model_display_offset[2]}))
     (scale (xyz ${p.model_display_scale[0]} ${p.model_display_scale[1]} ${p.model_display_scale[2]}))
-    (rotate (xyz ${p.model_display_rotation[0]} ${p.model_display_rotation[1]} ${p.model_display_rotation[2]}))
-  )
+    (rotate (xyz ${p.model_display_rotation[0]} ${p.model_display_rotation[1]} ${p.model_display_rotation[2]})))
   `
 
     let final = top;
